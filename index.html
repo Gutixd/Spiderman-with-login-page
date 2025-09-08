@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiderTrajes - Panel de Administración</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --spider-red: #d62b2b;
+            --spider-blue: #2b5aa7;
+            --spider-black: #333333;
+            --spider-dark: #1a1a1a;
+            --spider-light: #f5f5f5;
+            --admin-blue: #1a365d;
+            --admin-light: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--spider-dark);
+            color: var(--spider-light);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23d62b2b33" stroke-width="1"/></svg>');
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(to right, var(--spider-dark), var(--spider-red), var(--spider-dark));
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        
+        .logo i {
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .spider-web {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            opacity: 0.1;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,100 M100,0 L0,100 M50,0 L50,100 M0,50 L100,50" stroke="%23ffffff" stroke-width="0.5"/></svg>');
+        }
+        
+        .admin-login {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+        
+        .admin-btn {
+            background: var(--admin-blue);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .admin-btn:hover {
+            background: #2a4a7e;
+        }
+        
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            border-left: 4px solid var(--spider-red);
+            border-right: 4px solid var(--spider-blue);
+        }
+        
+        .intro h2 {
+            color: var(--spider-red);
+            margin-bottom: 1rem;
+        }
+        
+        .delivery-info {
+            background: rgba(214, 43, 43, 0.2);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border: 1px solid var(--spider-red);
+        }
+        
+        /* Grid de trajes */
+        .suits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .suit-card {
+            background: linear-gradient(145deg, #2c2c2c, #1f1f1f);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: 1px solid #444;
+        }
+        
+        .suit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Carrusel de imágenes */
+        .carousel {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+        
+        .carousel-item {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 1rem;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+        
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+        }
+        
+        .carousel-control.prev {
+            left: 10px;
+        }
+        
+        .carousel-control.next {
+            right: 10px;
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+        
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+        
+        .carousel-indicator.active {
+            background: white;
+        }
+        
+        .suit-info {
+            padding: 1.5rem;
+        }
+        
+        .suit-info h3 {
+            color: var(--spider-red);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .price {
+            font-size: 1.3rem;
+            color: #f5f5f5;
+            margin: 0.5rem 0;
+            font-weight: bold;
+        }
+        
+        .size-selector {
+            margin: 1rem 0;
+        }
+        
+        .size-selector label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+        
+        .size-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .size-btn {
+            padding: 0.5rem;
+            background: #444;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 50px;
+        }
+        
+        .size-btn:hover {
+            background: #555;
+        }
+        
+        .size-btn.selected {
+            background: var(--spider-red);
+            color: white;
+        }
+        
+        .size-btn.unavailable {
+            background: #333;
+            color: #777;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+        
+        .whatsapp-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: #25D366;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+        
+        .whatsapp-btn:disabled {
+            background: #777;
+            cursor: not-allowed;
+        }
+        
+        .size-info {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background: var(--spider-black);
+            border-top: 2px solid var(--spider-red);
+        }
+        
+        /* Modal de administración */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--spider-dark);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(214, 43, 43, 0.5);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--spider-red);
+            padding-bottom: 0.5rem;
+        }
+        
+        .modal-header h2 {
+            color: var(--spider-red);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+        }
+        
+        .admin-submit {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--spider-red);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        
+        .admin-submit:hover {
+            background: #b52525;
+        }
+        
+        /* Panel de administración */
+        .admin-panel {
+            display: none;
+            background: var(--admin-light);
+            color: var(--spider-dark);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--admin-blue);
+        }
+        
+        .admin-header h2 {
+            color: var(--admin-blue);
+        }
+        
+        .logout-btn {
+            background: var(--spider-red);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .stock-management {
+            margin-bottom: 2rem;
+        }
+        
+        .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .stock-table th, .stock-table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        
+        .stock-table th {
+            background: var(--admin-blue);
+            color: white;
+        }
+        
+        .stock-table tr:nth-child(even) {
+            background: #e6e6e6;
+        }
+        
+        .stock-input {
+            width: 50px;
+            padding: 0.3rem;
+            text-align: center;
+        }
+        
+        .save-btn {
+            background: var(--admin-blue);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .suits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .admin-login {
+                position: static;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="spider-web"></div>
+        <div class="logo">
+            <i class="fas fa-spider"></i>
+            <h1>SpiderTrajes</h1>
+            <i class="fas fa-spider"></i>
+        </div>
+        <div class="admin-login">
+            <a href="#" class="admin-btn" id="admin-login-btn">
+                <i class="fas fa-lock"></i> Admin
+            </a>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>¡Trajes de Spiderman de Alta Calidad!</h2>
+            <p>Encuentra el traje perfecto de Spiderman para ti o para tus hijos. Todos nuestros trajes son de la mejor calidad y perfectos para cosplay, fiestas o colección.</p>
+            <div class="delivery-info">
+                <p><strong>ENTREGAS:</strong> Solo realizamos entregas en Metro Plaza de Maipú o por Starken (pago contra entrega).</p>
+                <p><strong>PRECIO:</strong> Cada traje tiene un valor de $25.000</p>
+            </div>
+        </section>
+        
+        <section class="suits-grid">
+            <!-- Traje 1: Miles Morales -->
+            <div class="suit-card">
+                <div class="carousel" id="carousel-miles">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/miles1.jpg');">
+                            <h3>Traje Miles Morales</h3>
+                        </div>
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/miles2.jpg');">
+                            <h3>Vista frontal</h3>
+                        </div>
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/miles3.jpg');">
+                            <h3>Vista posterior</h3>
+                        </div>
+                    </div>
+                    <button class="carousel-control prev" onclick="moveCarousel('miles', -1)">&#10094;</button>
+                    <button class="carousel-control next" onclick="moveCarousel('miles', 1)">&#10095;</button>
+                    <div class="carousel-indicators">
+                        <span class="carousel-indicator active" onclick="showCarouselSlide('miles', 0)"></span>
+                        <span class="carousel-indicator" onclick="showCarouselSlide('miles', 1)"></span>
+                        <span class="carousel-indicator" onclick="showCarouselSlide('miles', 2)"></span>
+                    </div>
+                </div>
+                <div class="suit-info">
+                    <h3>Miles Morales</h3>
+                    <p>Traje clásico de Miles Morales con diseño único.</p>
+                    <div class="price">$25.000</div>
+                    
+                    <div class="size-selector">
+                        <label>Selecciona tu talla:</label>
+                        <div class="size-buttons" id="sizes-miles">
+                            <!-- Los botones de talla se generarán con JS -->
+                        </div>
+                        <p class="size-info">Tallas desde 90cm hasta 190cm</p>
+                    </div>
+                    
+                    <a id="whatsapp-miles" class="whatsapp-btn" target="_blank" disabled>
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Traje 2: Tom Holland -->
+            <div class="suit-card">
+                <div class="carousel" id="carousel-holland">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/tom1.jpg');">
+                            <h3>Traje Tom Holland</h3>
+                        </div>
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/tom2.jpg');">
+                            <h3>Detalle del logo</h3>
+                        </div>
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/tom3.jpg');">
+                            <h3>Vista posterior</h3>
+                        </div>
+                    </div>
+                    <button class="carousel-control prev" onclick="moveCarousel('holland', -1)">&#10094;</button>
+                    <button class="carousel-control next" onclick="moveCarousel('holland', 1)">&#10095;</button>
+                    <div class="carousel-indicators">
+                        <span class="carousel-indicator active" onclick="showCarouselSlide('holland', 0)"></span>
+                        <span class="carousel-indicator" onclick="showCarouselSlide('holland', 1)"></span>
+                        <span class="carousel-indicator" onclick="showCarouselSlide('holland', 2)"></span>
+                    </div>
+                </div>
+                <div class="suit-info">
+                    <h3>Tom Holland</h3>
+                    <p>Traje del Hombre Araje del UMC, versión Tom Holland.</p>
+                    <div class="price">$25.000</div>
+                    
+                    <div class="size-selector">
+                        <label>Selecciona tu talla:</label>
+                        <div class="size-buttons" id="sizes-holland">
+                            <!-- Los botones de talla se generarán con JS -->
+                        </div>
+                        <p class="size-info">Tallas desde 90cm hasta 190cm</p>
+                    </div>
+                    
+                    <a id="whatsapp-holland" class="whatsapp-btn" target="_blank" disabled>
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Traje 3: Spiderman Venom -->
+            <div class="suit-card">
+                <div class="carousel" id="carousel-venom">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/venom1.jpg');">
+                            <h3>Traje Spiderman Venom</h3>
+                        </div>
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/venom2.jpg');">
+                            <h3>Detalle frontal</h3>
+                        </div>
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('image/venom3.jpg');">
+                            <h3>Detalle posterior</h3>
+                        </div>
+                    </div>
+                    <button class="carousel-control prev" onclick="moveCarousel('venom', -1)">&#10094;</button>
+                    <button class="carousel-control next" onclick="moveCarousel('venom', 1)">&#10095;</button>
+                    <div class="carousel-indicators">
+                        <span class="carousel-indicator active" onclick="showCarouselSlide('venom', 0)"></span>
+                        <span class="carousel-indicator" onclick="showCarouselSlide('venom', 1)"></span>
+                        <span class="carousel-indicator" onclick="showCarouselSlide('venom', 2)"></span>
+                    </div>
+                </div>
+                <div class="suit-info">
+                    <h3>Spiderman Venom</h3>
+                    <p>Traje simbiote de Spiderman con diseño Venom.</p>
+                    <div class="price">$25.000</div>
+                    
+                    <div class="size-selector">
+                        <label>Selecciona tu talla:</label>
+                        <div class="size-buttons" id="sizes-venom">
+                            <!-- Los botones de talla se generarán con JS -->
+                        </div>
+                        <p class="size-info">Tallas desde 90cm hasta 190cm</p>
+                    </div>
+                    
+                    <a id="whatsapp-venom" class="whatsapp-btn" target="_blank" disabled>
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Traje 4: Mujer Spiderman -->
+            <div class="suit-card">
+                <div class="carousel" id="carousel-woman">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), #d62b2b;">
+                            <h3>Traje Mujer Spiderman</h3>
+                        </div>
+                        <div class="carousel-item" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), #2b5aa7;">
+                            <h3>Vista lateral</h3>
+                        </div>
+                    </div>
+                    <button class="carousel-control prev" onclick="moveCarousel('woman', -1)">&#10094;</button>
+                    <button class="carousel-control next" onclick="moveCarousel('woman', 1)">&#10095;</button>
+                    <div class="carousel-indicators">
+                        <span class="carousel-indicator active" onclick="showCarouselSlide('woman', 0)"></span>
+                        <span class="carousel-indicator" onclick="showCarouselSlide('woman', 1)"></span>
+                    </div>
+                </div>
+                <div class="suit-info">
+                    <h3>Mujer Spiderman</h3>
+                    <p>Traje diseñado especialmente para mujeres y niñas.</p>
+                    <div class="price">$25.000</div>
+                    
+                    <div class="size-selector">
+                        <label>Selecciona tu talla:</label>
+                        <div class="size-buttons" id="sizes-woman">
+                            <!-- Los botones de talla se generarán con JS -->
+                        </div>
+                        <p class="size-info">Tallas desde 90cm hasta 190cm</p>
+                    </div>
+                    
+                    <a id="whatsapp-woman" class="whatsapp-btn" target="_blank" disabled>
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Panel de administración (oculto inicialmente) -->
+        <section class="admin-panel" id="admin-panel">
+            <div class="admin-header">
+                <h2>Panel de Administración</h2>
+                <button class="logout-btn" id="logout-btn">Cerrar Sesión</button>
+            </div>
+            
+            <div class="stock-management">
+                <h3>Gestión de Stock</h3>
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Traje</th>
+                            <th>90cm</th>
+                            <th>100cm</th>
+                            <th>110cm</th>
+                            <th>120cm</th>
+                            <th>130cm</th>
+                            <th>140cm</th>
+                            <th>150cm</th>
+                            <th>160cm</th>
+                            <th>170cm</th>
+                            <th>180cm</th>
+                            <th>190cm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Miles Morales</td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="90" value="0"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="100" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="110" value="3"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="120" value="1"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="130" value="4"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="140" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="150" value="3"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="160" value="1"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="170" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="180" value="0"></td>
+                            <td><input type="number" class="stock-input" data-suit="miles" data-size="190" value="0"></td>
+                        </tr>
+                        <tr>
+                            <td>Tom Holland</td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="90" value="0"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="100" value="0"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="110" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="120" value="3"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="130" value="4"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="140" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="150" value="1"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="160" value="3"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="170" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="180" value="1"></td>
+                            <td><input type="number" class="stock-input" data-suit="holland" data-size="190" value="0"></td>
+                        </tr>
+                        <tr>
+                            <td>Spiderman Venom</td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="90" value="0"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="100" value="1"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="110" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="120" value="3"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="130" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="140" value="1"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="150" value="4"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="160" value="3"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="170" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="180" value="1"></td>
+                            <td><input type="number" class="stock-input" data-suit="venom" data-size="190" value="1"></td>
+                        </tr>
+                        <tr>
+                            <td>Mujer Spiderman</td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="90" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="100" value="3"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="110" value="4"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="120" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="130" value="1"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="140" value="3"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="150" value="2"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="160" value="0"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="170" value="0"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="180" value="0"></td>
+                            <td><input type="number" class="stock-input" data-suit="woman" data-size="190" value="0"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="save-btn" id="save-stock-btn">Guardar Cambios de Stock</button>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>SpiderTrajes &copy; 2023 - Todos los derechos reservados</p>
+        <p>Contacto: +56978829942 | Entregas en Metro Plaza de Maipú o por Starken</p>
+    </footer>
+
+    <!-- Modal de inicio de sesión -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Iniciar Sesión</h2>
+                <button class="close-modal" id="close-login-modal">&times;</button>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="admin-submit">Ingresar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar carruseles
+            initCarousels();
+            
+            // Definir las tallas disponibles para cada traje
+            const stock = {
+                'miles': ['100', '110', '120', '130', '140', '150', '160', '170'],
+                'holland': ['110', '120', '130', '140', '150', '160', '170', '180'],
+                'venom': ['100', '110', '120', '130', '140', '150', '160', '170', '180', '190'],
+                'woman': ['90', '100', '110', '120', '130', '140', '150']
+            };
+            
+            // Generar botones de tallas para cada traje
+            generateSizeButtons('miles', stock.miles);
+            generateSizeButtons('holland', stock.holland);
+            generateSizeButtons('venom', stock.venom);
+            generateSizeButtons('woman', stock.woman);
+            
+            // Modal de login
+            const loginModal = document.getElementById('login-modal');
+            const loginBtn = document.getElementById('admin-login-btn');
+            const closeLoginBtn = document.getElementById('close-login-modal');
+            const loginForm = document.getElementById('login-form');
+            const adminPanel = document.getElementById('admin-panel');
+            const logoutBtn = document.getElementById('logout-btn');
+            const saveStockBtn = document.getElementById('save-stock-btn');
+            
+            // Abrir modal de login
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginModal.style.display = 'flex';
+            });
+            
+            // Cerrar modal de login
+            closeLoginBtn.addEventListener('click', function() {
+                loginModal.style.display = 'none';
+            });
+            
+            // Cerrar modal al hacer clic fuera
+            window.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+            
+            // Procesar login
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Credenciales hardcodeadas (en un caso real, esto debería ser más seguro)
+                if (username === 'admin' && password === 'spider123') {
+                    loginModal.style.display = 'none';
+                    adminPanel.style.display = 'block';
+                    // Guardar estado de sesión
+                    localStorage.setItem('adminLoggedIn', 'true');
+                } else {
+                    alert('Usuario o contraseña incorrectos');
+                }
+            });
+            
+            // Cerrar sesión
+            logoutBtn.addEventListener('click', function() {
+                adminPanel.style.display = 'none';
+                localStorage.removeItem('adminLoggedIn');
+            });
+            
+            // Verificar si ya está logueado
+            if (localStorage.getItem('adminLoggedIn') === 'true') {
+                adminPanel.style.display = 'block';
+            }
+            
+            // Guardar cambios de stock
+            saveStockBtn.addEventListener('click', function() {
+                const stockInputs = document.querySelectorAll('.stock-input');
+                const stockData = {};
+                
+                stockInputs.forEach(input => {
+                    const suit = input.dataset.suit;
+                    const size = input.dataset.size;
+                    const quantity = parseInt(input.value) || 0;
+                    
+                    if (!stockData[suit]) {
+                        stockData[suit] = [];
+                    }
+                    
+                    if (quantity > 0) {
+                        stockData[suit].push(size);
+                    }
+                });
+                
+                // Guardar en localStorage
+                localStorage.setItem('suitStock', JSON.stringify(stockData));
+                
+                // Actualizar la interfaz
+                for (const suit in stockData) {
+                    generateSizeButtons(suit, stockData[suit]);
+                }
+                
+                alert('Stock actualizado correctamente');
+            });
+            
+            // Cargar stock guardado si existe
+            const savedStock = localStorage.getItem('suitStock');
+            if (savedStock) {
+                const stockData = JSON.parse(savedStock);
+                for (const suit in stockData) {
+                    // Actualizar inputs
+                    stockData[suit].forEach(size => {
+                        const input = document.querySelector(`.stock-input[data-suit="${suit}"][data-size="${size}"]`);
+                        if (input) {
+                            input.value = 1; // Podría mejorarse para guardar cantidades exactas
+                        }
+                    });
+                    
+                    // Regenerar botones
+                    generateSizeButtons(suit, stockData[suit]);
+                }
+            }
+            
+            function generateSizeButtons(suit, availableSizes) {
+                const sizesContainer = document.getElementById(`sizes-${suit}`);
+                const whatsappBtn = document.getElementById(`whatsapp-${suit}`);
+                
+                // Limpiar contenedor
+                sizesContainer.innerHTML = '';
+                
+                // Crear botones para tallas desde 90 hasta 190
+                for (let size = 90; size <= 190; size += 10) {
+                    const sizeBtn = document.createElement('button');
+                    sizeBtn.classList.add('size-btn');
+                    sizeBtn.textContent = size;
+                    
+                    // Verificar si la talla está disponible
+                    if (!availableSizes.includes(size.toString())) {
+                        sizeBtn.classList.add('unavailable');
+                    } else {
+                        sizeBtn.addEventListener('click', function() {
+                            // Deseleccionar cualquier botón previamente seleccionado
+                            const selected = sizesContainer.querySelector('.selected');
+                            if (selected) {
+                                selected.classList.remove('selected');
+                            }
+                            
+                            // Seleccionar el botón actual
+                            sizeBtn.classList.add('selected');
+                            
+                            // Habilitar el botón de WhatsApp
+                            whatsappBtn.removeAttribute('disabled');
+                            
+                            // Actualizar el enlace de WhatsApp
+                            const suitNames = {
+                                'miles': 'Miles Morales',
+                                'holland': 'Tom Holland',
+                                'venom': 'Spiderman Venom',
+                                'woman': 'Mujer Spiderman'
+                            };
+                            
+                            const message = `Hola, estoy interesado/a en el traje de ${suitNames[suit]} talla ${size}. ¿Tienen disponible?`;
+                            const encodedMessage = encodeURIComponent(message);
+                            whatsappBtn.href = `https://wa.me/56978829942?text=${encodedMessage}`;
+                        });
+                    }
+                    
+                    sizesContainer.appendChild(sizeBtn);
+                }
+            }
+            
+            function initCarousels() {
+                // Inicializar todos los carruseles
+                const carousels = document.querySelectorAll('.carousel');
+                
+                carousels.forEach(carousel => {
+                    const inner = carousel.querySelector('.carousel-inner');
+                    const items = carousel.querySelectorAll('.carousel-item');
+                    
+                    // Establecer el ancho del inner
+                    inner.style.width = `${items.length * 100}%`;
+                    
+                    // Establecer el ancho de cada item
+                    items.forEach(item => {
+                        item.style.width = `${100 / items.length}%`;
+                    });
+                });
+            }
+        });
+        
+        // Funciones para controlar el carrusel
+        function moveCarousel(carouselId, direction) {
+            const carousel = document.getElementById(`carousel-${carouselId}`);
+            const inner = carousel.querySelector('.carousel-inner');
+            const items = carousel.querySelectorAll('.carousel-item');
+            const indicators = carousel.querySelectorAll('.carousel-indicator');
+            
+            const currentIndex = Math.round(parseInt(inner.style.transform?.replace('translateX(', '')?.replace('%)', '') || 0) / 100);
+            let newIndex = currentIndex + direction;
+            
+            // Verificar límites
+            if (newIndex < 0) newIndex = items.length - 1;
+            if (newIndex >= items.length) newIndex = 0;
+            
+            // Mover carrusel
+            inner.style.transform = `translateX(-${newIndex * 100}%)`;
+            
+            // Actualizar indicadores
+            indicators.forEach((indicator, index) => {
+                if (index === newIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+        
+        function showCarouselSlide(carouselId, index) {
+            const carousel = document.getElementById(`carousel-${carouselId}`);
+            const inner = carousel.querySelector('.carousel-inner');
+            const indicators = carousel.querySelectorAll('.carousel-indicator');
+            
+            // Mover carrusel
+            inner.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Actualizar indicadores
+            indicators.forEach((indicator, i) => {
+                if (i === index) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
