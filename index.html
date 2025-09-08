@@ -28,6 +28,9 @@
             color: var(--spider-light);
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23d62b2b33" stroke-width="1"/></svg>');
             overflow-x: hidden;
+            /* Prevenir zoom en imágenes */
+            touch-action: manipulation;
+            -webkit-text-size-adjust: 100%;
         }
         
         /* Header */
@@ -47,14 +50,14 @@
         }
         
         .logo h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
             color: white;
         }
         
         .logo i {
             color: white;
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
         
         .spider-web {
@@ -70,18 +73,19 @@
         
         .admin-login {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 0.5rem;
+            right: 0.5rem;
         }
         
         .admin-btn {
             background: var(--admin-blue);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
             transition: background 0.3s;
+            font-size: 0.8rem;
         }
         
         .admin-btn:hover {
@@ -92,13 +96,13 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
         }
         
         .intro {
             text-align: center;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
             background: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
             border-left: 4px solid var(--spider-red);
@@ -107,23 +111,25 @@
         
         .intro h2 {
             color: var(--spider-red);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
         }
         
         .delivery-info {
             background: rgba(214, 43, 43, 0.2);
-            padding: 1rem;
+            padding: 0.8rem;
             border-radius: 5px;
-            margin: 1rem 0;
+            margin: 0.8rem 0;
             border: 1px solid var(--spider-red);
+            font-size: 0.9rem;
         }
         
         /* Grid de trajes */
         .suits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
         
         .suit-card {
@@ -143,8 +149,10 @@
         /* Carrusel de imágenes */
         .carousel {
             position: relative;
-            height: 200px;
+            height: 220px;
             overflow: hidden;
+            /* Prevenir acciones de zoom */
+            touch-action: pan-y;
         }
         
         .carousel-inner {
@@ -160,12 +168,16 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-align: center;
             padding: 1rem;
-            background-size: cover !important;
+            background-size: contain !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
+            /* Prevenir zoom en imágenes */
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .carousel-control {
@@ -175,12 +187,15 @@
             background: rgba(0, 0, 0, 0.5);
             color: white;
             border: none;
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             cursor: pointer;
             z-index: 10;
             font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .carousel-control.prev {
@@ -197,15 +212,17 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 5px;
+            gap: 6px;
+            z-index: 10;
         }
         
         .carousel-indicator {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
+            transition: background 0.3s;
         }
         
         .carousel-indicator.active {
@@ -213,17 +230,17 @@
         }
         
         .suit-info {
-            padding: 1.5rem;
+            padding: 1.2rem;
         }
         
         .suit-info h3 {
             color: var(--spider-red);
             margin-bottom: 0.5rem;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
         
         .price {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #f5f5f5;
             margin: 0.5rem 0;
             font-weight: bold;
@@ -237,6 +254,7 @@
             display: block;
             margin-bottom: 0.5rem;
             color: #ccc;
+            font-size: 0.9rem;
         }
         
         .size-buttons {
@@ -253,7 +271,8 @@
             color: white;
             cursor: pointer;
             transition: all 0.3s;
-            min-width: 50px;
+            min-width: 45px;
+            font-size: 0.9rem;
         }
         
         .size-btn:hover {
@@ -286,7 +305,7 @@
             transition: background 0.3s;
             border: none;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .whatsapp-btn:hover {
@@ -300,16 +319,17 @@
         
         .size-info {
             margin-top: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #aaa;
         }
         
         footer {
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
             background: var(--spider-black);
             border-top: 2px solid var(--spider-red);
+            font-size: 0.9rem;
         }
         
         /* Modal de administración */
@@ -328,24 +348,27 @@
         
         .modal-content {
             background: var(--spider-dark);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 10px;
             width: 90%;
             max-width: 500px;
             box-shadow: 0 0 20px rgba(214, 43, 43, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             border-bottom: 1px solid var(--spider-red);
             padding-bottom: 0.5rem;
         }
         
         .modal-header h2 {
             color: var(--spider-red);
+            font-size: 1.5rem;
         }
         
         .close-modal {
@@ -364,6 +387,7 @@
             display: block;
             margin-bottom: 0.5rem;
             color: #ccc;
+            font-size: 0.9rem;
         }
         
         .form-group input {
@@ -373,6 +397,7 @@
             border: 1px solid #444;
             background: #333;
             color: white;
+            font-size: 1rem;
         }
         
         .admin-submit {
@@ -385,6 +410,7 @@
             cursor: pointer;
             font-weight: bold;
             margin-top: 1rem;
+            font-size: 1rem;
         }
         
         .admin-submit:hover {
@@ -396,22 +422,24 @@
             display: none;
             background: var(--admin-light);
             color: var(--spider-dark);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 10px;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
+            overflow-x: auto;
         }
         
         .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--admin-blue);
         }
         
         .admin-header h2 {
             color: var(--admin-blue);
+            font-size: 1.5rem;
         }
         
         .logout-btn {
@@ -421,27 +449,32 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 0.9rem;
         }
         
         .stock-management {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
         }
         
         .stock-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 1rem;
+            min-width: 600px;
         }
         
         .stock-table th, .stock-table td {
             border: 1px solid #ddd;
-            padding: 0.5rem;
-            text-align: left;
+            padding: 0.4rem;
+            text-align: center;
+            font-size: 0.8rem;
         }
         
         .stock-table th {
             background: var(--admin-blue);
             color: white;
+            padding: 0.6rem;
         }
         
         .stock-table tr:nth-child(even) {
@@ -449,9 +482,10 @@
         }
         
         .stock-input {
-            width: 50px;
+            width: 40px;
             padding: 0.3rem;
             text-align: center;
+            font-size: 0.8rem;
         }
         
         .save-btn {
@@ -462,20 +496,117 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 1rem;
+            font-size: 0.9rem;
         }
         
+        /* Media queries para móviles */
         @media (max-width: 768px) {
+            .container {
+                padding: 0.8rem;
+            }
+            
             .suits-grid {
                 grid-template-columns: 1fr;
+                gap: 1.2rem;
             }
             
             .logo h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
             
             .admin-login {
                 position: static;
-                margin-top: 1rem;
+                margin-top: 0.8rem;
+                text-align: center;
+            }
+            
+            .carousel {
+                height: 200px;
+            }
+            
+            .carousel-item {
+                font-size: 1.1rem;
+            }
+            
+            .carousel-control {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .suit-info {
+                padding: 1rem;
+            }
+            
+            .suit-info h3 {
+                font-size: 1.2rem;
+            }
+            
+            .price {
+                font-size: 1.1rem;
+            }
+            
+            .size-btn {
+                min-width: 40px;
+                padding: 0.4rem;
+                font-size: 0.8rem;
+            }
+            
+            .whatsapp-btn {
+                padding: 0.7rem;
+                font-size: 0.9rem;
+            }
+            
+            /* Ajustes para tabla en móviles */
+            .admin-panel {
+                padding: 1rem;
+            }
+            
+            .stock-table {
+                font-size: 0.7rem;
+            }
+            
+            .stock-table th, .stock-table td {
+                padding: 0.3rem;
+            }
+            
+            .stock-input {
+                width: 35px;
+                padding: 0.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .carousel {
+                height: 180px;
+            }
+            
+            .carousel-item {
+                font-size: 1rem;
+                padding: 0.8rem;
+            }
+            
+            .size-buttons {
+                gap: 0.3rem;
+            }
+            
+            .size-btn {
+                min-width: 35px;
+                font-size: 0.75rem;
+            }
+            
+            footer {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .stock-table th, .stock-table td {
+                padding: 0.2rem;
+                font-size: 0.7rem;
+            }
+            
+            .stock-input {
+                width: 30px;
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -676,82 +807,84 @@
             
             <div class="stock-management">
                 <h3>Gestión de Stock</h3>
-                <table class="stock-table">
-                    <thead>
-                        <tr>
-                            <th>Traje</th>
-                            <th>90cm</th>
-                            <th>100cm</th>
-                            <th>110cm</th>
-                            <th>120cm</th>
-                            <th>130cm</th>
-                            <th>140cm</th>
-                            <th>150cm</th>
-                            <th>160cm</th>
-                            <th>170cm</th>
-                            <th>180cm</th>
-                            <th>190cm</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Miles Morales</td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="90" value="0"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="100" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="110" value="3"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="120" value="1"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="130" value="4"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="140" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="150" value="3"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="160" value="1"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="170" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="180" value="0"></td>
-                            <td><input type="number" class="stock-input" data-suit="miles" data-size="190" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>Tom Holland</td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="90" value="0"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="100" value="0"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="110" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="120" value="3"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="130" value="4"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="140" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="150" value="1"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="160" value="3"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="170" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="180" value="1"></td>
-                            <td><input type="number" class="stock-input" data-suit="holland" data-size="190" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>Spiderman Venom</td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="90" value="0"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="100" value="1"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="110" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="120" value="3"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="130" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="140" value="1"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="150" value="4"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="160" value="3"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="170" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="180" value="1"></td>
-                            <td><input type="number" class="stock-input" data-suit="venom" data-size="190" value="1"></td>
-                        </tr>
-                        <tr>
-                            <td>Mujer Spiderman</td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="90" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="100" value="3"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="110" value="4"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="120" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="130" value="1"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="140" value="3"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="150" value="2"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="160" value="0"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="170" value="0"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="180" value="0"></td>
-                            <td><input type="number" class="stock-input" data-suit="woman" data-size="190" value="0"></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style="overflow-x: auto;">
+                    <table class="stock-table">
+                        <thead>
+                            <tr>
+                                <th>Traje</th>
+                                <th>90cm</th>
+                                <th>100cm</th>
+                                <th>110cm</th>
+                                <th>120cm</th>
+                                <th>130cm</th>
+                                <th>140cm</th>
+                                <th>150cm</th>
+                                <th>160cm</th>
+                                <th>170cm</th>
+                                <th>180cm</th>
+                                <th>190cm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Miles Morales</td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="90" value="0"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="100" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="110" value="3"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="120" value="1"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="130" value="4"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="140" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="150" value="3"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="160" value="1"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="170" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="180" value="0"></td>
+                                <td><input type="number" class="stock-input" data-suit="miles" data-size="190" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td>Tom Holland</td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="90" value="0"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="100" value="0"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="110" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="120" value="3"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="130" value="4"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="140" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="150" value="1"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="160" value="3"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="170" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="180" value="1"></td>
+                                <td><input type="number" class="stock-input" data-suit="holland" data-size="190" value="0"></td>
+                            </tr>
+                            <tr>
+                                <td>Spiderman Venom</td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="90" value="0"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="100" value="1"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="110" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="120" value="3"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="130" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="140" value="1"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="150" value="4"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="160" value="3"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="170" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="180" value="1"></td>
+                                <td><input type="number" class="stock-input" data-suit="venom" data-size="190" value="1"></td>
+                            </tr>
+                            <tr>
+                                <td>Mujer Spiderman</td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="90" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="100" value="3"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="110" value="4"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="120" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="130" value="1"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="140" value="3"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="150" value="2"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="160" value="0"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="170" value="0"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="180" value="0"></td>
+                                <td><input type="number" class="stock-input" data-suit="woman" data-size="190" value="0"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <button class="save-btn" id="save-stock-btn">Guardar Cambios de Stock</button>
             </div>
         </section>
